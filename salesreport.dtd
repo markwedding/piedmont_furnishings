@@ -1,0 +1,13 @@
+<!ELEMENT salesreport (sale+, totalprice)>
+<!ELEMENT sale (ordernumber, customerid, agentid, date, status, product+)>
+<!ELEMENT ordernumber (#PCDATA)>
+<!ELEMENT customerid (#PCDATA)>
+<!ELEMENT agentid (#PCDATA)>
+<!ELEMENT date (#PCDATA)>
+<!ELEMENT status (#PCDATA)>
+<!ELEMENT product (itemnumber, quantity, price, total)>
+<!ELEMENT itemnumber (#PCDATA)>
+<!ELEMENT quantity (#PCDATA)>
+<!ELEMENT price (#PCDATA)>
+<!ELEMENT total (#PCDATA)>
+<!ELEMENT totalprice (#PCDATA)>
