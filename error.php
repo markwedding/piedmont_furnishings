@@ -6,9 +6,9 @@
 	<link type="text/css" rel="stylesheet" href="sales.css"/>
 </head>
 <body>
-	
+
 	<h1>An error has occurred.</h1>
-<?
+<?php
 
 	print "Error message: " . $_GET["msg"];
 	if (isset($_GET["line"]))

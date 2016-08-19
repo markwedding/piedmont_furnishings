@@ -1,5 +1,5 @@
-<?session_start();?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
+<?phpsession_start();?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -25,11 +25,11 @@
 			</li>
 		</ul>
 	</div>
-	
-	
+
+
 	<div class="info-home">
 	<div class="group">
-	<p>Welcome <?=$_SESSION['fname']." ".$_SESSION['lname'];?></p>
+	<p>Welcome <?php=$_SESSION['fname']." ".$_SESSION['lname'];?></p>
 	<p>Project: Sales Order Analysis and Reporting System</p>
 	<p>Client: Piedmont Furnishings</p>
 	</div>
@@ -47,6 +47,6 @@
 	<p>Up until this point, the company has relied on paper documents to conduct their business. Sales agents fill out physical order forms and customer forms, and must mail them to the store in High Point. In addition, managers rely upon manually constructed reports to analyze the company. The Sales Order Analysis and Reporting System is a web-based support system that will allow all of these forms and reports to be done through the web. Rather than mailing forms to the physical store, sales agents will be able to simply logon to the system through a web browser and fill out electronic forms. Managers will be able to generate reports based upon the data that is entered into the system.</p>
 	</div>
 	</div>
-	
+
 </body>
 </html>

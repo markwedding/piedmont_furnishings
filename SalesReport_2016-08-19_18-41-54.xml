@@ -1,0 +1,6 @@
+<?phpxml version="1.0"?>
+<!DOCTYPE salesreport SYSTEM "salesreport.dtd">
+
+<salesreport>
+	<totalprice>$0.00</totalprice>
+</salesreport>
