@@ -72,42 +72,63 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<link rel="stylesheet" type="text/css" href="piedmont.css"/>
-		<title>Login</title>
+		<title>Piedmont Furnishings</title>
+    <link href="http://bootswatch.com/lumen/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://bootswatch.com/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+
 	</head>
 	<body>
-		<h1>Piedmont Furnishings Employee Login</h1>
-		<form name="form1" method="post" action="login.php">
-			<?php if($failed_login){echo "FAILED";}?>
-			<div class="info">
-			<div class="group-login">
-				<p>
-					Please select your occupation
-					<br></br>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.php">
+  					<strong>Piedmont Furnishings</strong>
+  				</a>
+        </div>
+      </div>
+    </nav>
 
-					<select name="jobList">
-						<option>Management</option>
-						<option>Sales Agent</option>
-					</select>
-				</p>
-				</div>
-				<div class="group-login">
-				<p id="password">
-					Please enter your username and password
-					<br></br>
-					Username: <input type="text" name="uname" value=""/>
-					<br></br>
-					Password: <input type="password" name="pword" value=""/>
-					<br></br>
-					<?php//print $strSQL;?>
-				</p>
-
-			</div>
-			<p class="button">
-				<input type="submit" name="page1_submit" id="page1_submit" value="Submit" />
-				<input type="reset" value="Reset" />
-			</p>
-			</div>
-		</form>
+    <div class="container">
+      <form class="form-horizontal form1" action="index.php" method="post" name="form1">
+        <fieldset>
+          <legend>Employee Login</legend>
+          <div class="form-group">
+            <label for="jobList" class="col-lg-4 control-label">Select your occupation</label>
+            <div class="col-lg-8">
+              <select class="form-control" name="jobList" id="jobList">
+                <option>Management</option>
+                <option>Sales Agent</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group<?php if($failed_login){echo " has-error";}?>">
+            <label for="uname" class="col-lg-4 control-label">Username</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="uname" name="uname" data-toggle="tooltip" data-placement="left" title="Enter RBSenior for Management account and Kramer for Sales Agent account">
+            </div>
+          </div>
+          <div class="form-group<?php if($failed_login){echo " has-error";}?>">
+            <label for="pword" class="col-lg-4 control-label">Password</label>
+            <div class="col-lg-8">
+              <input type="password" class="form-control" id="pword" name="pword" data-toggle="tooltip" data-placement="left" title="Enter benefactor for Management account and cosmo for Sales Agent account">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-8 col-lg-offset-4">
+              <button type="submit" class="btn btn-primary" name="page1_submit" id="page1_submit">Submit</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
 	</body>
 </html>
