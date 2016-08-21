@@ -23,3 +23,8 @@ div.container.home-page p {
   margin-left: auto;
   margin-right: auto;
 }
+
+.table tbody tr td.total-label {
+  text-align: right;
+  vertical-align: middle;
+}

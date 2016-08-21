@@ -102,21 +102,49 @@
 
 		/* AJAX */
 		$(document).ready(function(){
+
+			function updateTotalOrder() {
+				var priceArray = $(".totalprice").map(function() {
+					return $(this).val();
+				}).get()
+
+				var totalOrder = $("#totalorder");
+
+				var i;
+				var orderAmount = 0;
+				for(i = 0; i < priceArray.length; ++i) {
+					if (priceArray[i]!="") {
+						orderAmount = orderAmount + parseFloat(priceArray[i]);
+					}
+				}
+				totalOrder.val(orderAmount);
+			}
+
 			$(".product").change(function(){
 
-				var x = $("#"+$(this).attr("rel"));
+				var unitPrice = $("#unitprice" + $(this).attr("rel"));
+				var quantity = $("#quantity" + $(this).attr("rel"));
+				var totalPrice = $("#totalprice" + $(this).attr("rel"));
 
-				if ($(this).val()=="")
-				{
-					x.val("");
-					return;
+				unitPrice.load("getprice.php?q="+$(this).val(), function(responseTxt){
+					unitPrice.val(responseTxt);
+					totalPrice.val(quantity.val() * unitPrice.val());
+
+					updateTotalOrder();
+				});
+			});
+
+			$(".quantity").keyup(function(){
+				var unitPrice = $("#unitprice" + $(this).attr("rel"));
+				var totalPrice = $("#totalprice" + $(this).attr("rel"));
+
+				if ($(this).val() == "") {
+					totalPrice.val("");
+				} else {
+					totalPrice.val($(this).val() * unitPrice.val());
 				}
-				else{
-					x.load("getprice.php?q="+$(this).val(), function(responseTxt){
-						x.val(responseTxt);
-					});
-				};
 
+				updateTotalOrder();
 			});
 		});
 
@@ -188,57 +216,73 @@ if($_GET['action']=="create") {
 						$ordernumber = $row[0] + 101;
 						?>
 						<input type="hidden" name="ordernumber" value="<?php echo $ordernumber?>"/>
-						<div class="form-group">
-							<label class="col-lg-4 control-label" for="ordernumberd">Order Number</label>
-							<div class="col-lg-8">
-								<input class="form-control" type="text" name="ordernumberd" value="<?php echo $ordernumber?>" disabled="disabled"/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-4 control-label" for="orderdate">Order Date</label>
-							<div class="col-lg-8">
-								<input class="form-control" type="date" name="orderdate" value="<?php echo date('Y-m-d')?>"/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-4 control-label" for="customer">Customer</label>
-							<div class="col-lg-8">
-								<select class="form-control" name="customer" >
-								<?php while($row = mysqli_fetch_array($resultCust))
-								{  // retrieve each row of the recordset in turn ?>
-									<option value="<?php echo  $row["cust_id"]; ?>">
-									<?php echo  "(" . $row["cust_id"] . ") " . $row["cust_lname"] . ", " . $row["cust_fname"] ?>
-									</option>
-								<?php } ?>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-4 control-label" for="salesagent">Sales Agent</label>
-							<div class="col-lg-8">
-								<select class="form-control" name="salesagent" >
-								<?php while($row = mysqli_fetch_array($resultEmp))
-								{  // retrieve each row of the recordset in turn ?>
-									<option value="<?php echo  $row["emp_id"]; ?>">
-									<?php echo  $row["emp_lname"] . ", " . $row["emp_fname"] ?>
-									</option>
-								<?php } ?>
-								</select>
-							</div>
-						</div>
-							<div class="form-group">
-								<label class="col-lg-4 control-label" for="status">Order status</label>
-								<div class="col-lg-8">
-									<select class="form-control" name="status" >
-									<?php while($row = mysqli_fetch_array($resultStat))
-									{  // retrieve each row of the recordset in turn ?>
-										<option value="<?php echo  $row['status_id'];?>">
-										<?php echo  $row['status_type']?>
-										</option>
-									<?php } ?>
-									</select>
+						<div class="row">
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="ordernumberd">Order Number:</label>
+									<div class="col-lg-8">
+										<input class="form-control" type="text" name="ordernumberd" value="<?php echo $ordernumber?>" disabled="disabled"/>
+									</div>
 								</div>
 							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="orderdate">Order Date:</label>
+									<div class="col-lg-8">
+										<input class="form-control" type="date" name="orderdate" value="<?php echo date('Y-m-d')?>"/>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="status">Order status:</label>
+									<div class="col-lg-8">
+										<select class="form-control" name="status" >
+										<?php while($row = mysqli_fetch_array($resultStat))
+										{  // retrieve each row of the recordset in turn ?>
+											<option value="<?php echo  $row['status_id'];?>">
+											<?php echo  $row['status_type']?>
+											</option>
+										<?php } ?>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="customer">Customer:</label>
+									<div class="col-lg-8">
+										<select class="form-control" name="customer" >
+										<?php while($row = mysqli_fetch_array($resultCust))
+										{  // retrieve each row of the recordset in turn ?>
+											<option value="<?php echo  $row["cust_id"]; ?>">
+											<?php echo  "(" . $row["cust_id"] . ") " . $row["cust_lname"] . ", " . $row["cust_fname"] ?>
+											</option>
+										<?php } ?>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="salesagent">Sales Agent:</label>
+									<div class="col-lg-8">
+										<select class="form-control" name="salesagent" >
+										<?php while($row = mysqli_fetch_array($resultEmp))
+										{  // retrieve each row of the recordset in turn ?>
+											<option value="<?php echo  $row["emp_id"]; ?>">
+											<?php echo  $row["emp_lname"] . ", " . $row["emp_fname"] ?>
+											</option>
+										<?php } ?>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<hr>
 
 						<table class="table">
 							<tr>
@@ -252,7 +296,7 @@ if($_GET['action']=="create") {
 							{ ?>
 							<tr>
 								<td>
-									<select class="form-control product" name="product<?php echo $i?>" rel="unitprice<?php echo $i?>">
+									<select class="form-control product" name="product<?php echo $i?>" rel="<?php echo $i?>">
 										<?php while($row = mysqli_fetch_array($resultProd))
 										{  // retrieve each row of the recordset in turn ?>
 											<option value="<?php echo  $row["product_id"]; ?>">
@@ -261,15 +305,32 @@ if($_GET['action']=="create") {
 										<?php } mysqli_data_seek($resultProd,0); ?>
 									</select>
 								</td>
-								<td><input class="form-control" type="text" name="quantity<?php echo $i?>"/></td>
-								<td><input class="form-control" type="text" name="unitprice<?php echo $i?>" id="unitprice<?php echo $i?>"/ value="250.00"></td>
-								<td><input class="form-control" type="text" name="totalprice<?php echo $i?>"/></td>
+								<td>
+									<input class="form-control quantity" type="text" name="quantity<?php echo $i?>" id="quantity<?php echo $i?>" rel="<?php echo $i?>"/>
+								</td>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">$</span>
+										<input class="form-control unitprice" type="text" name="unitprice<?php echo $i?>" id="unitprice<?php echo $i?>" rel="<?php echo $i?>" disabled value="250.00"/>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">$</span>
+										<input class="form-control totalprice" type="text" name="totalprice<?php echo $i?>" id="totalprice<?php echo $i?>" rel="<?php echo $i?>" disabled/>
+									</div>
+								</td>
 							</tr>
 							<?php
 							} ?>
 							<tr>
-								<td colspan="3" align="right">Total Order:</td>
-								<td><input class="form-control" type="text" name="totalorder"/></td>
+								<td colspan="3" class="total-label"><strong>Total Order:<strong></td>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">$</span>
+										<input class="form-control totalorder" type="text" name="totalorder" id="totalorder" disabled/>
+									</div>
+								</td>
 							</tr>
 						</table>
 						<div class="center-button">
