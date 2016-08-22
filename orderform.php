@@ -221,7 +221,7 @@ if($_GET['action']=="create") {
 								<div class="form-group">
 									<label class="col-lg-4 control-label" for="ordernumberd">Order Number:</label>
 									<div class="col-lg-8">
-										<input class="form-control" type="text" name="ordernumberd" value="<?php echo $ordernumber?>" disabled="disabled"/>
+										<input class="form-control" type="text" name="ordernumberd" value="<?php echo $ordernumber?>" readonly="readonly"/>
 									</div>
 								</div>
 							</div>
@@ -311,13 +311,13 @@ if($_GET['action']=="create") {
 								<td>
 									<div class="input-group">
 										<span class="input-group-addon">$</span>
-										<input class="form-control unitprice" type="text" name="unitprice<?php echo $i?>" id="unitprice<?php echo $i?>" rel="<?php echo $i?>" disabled value="250.00"/>
+										<input class="form-control unitprice" type="text" name="unitprice<?php echo $i?>" id="unitprice<?php echo $i?>" rel="<?php echo $i?>" readonly value="250.00"/>
 									</div>
 								</td>
 								<td>
 									<div class="input-group">
 										<span class="input-group-addon">$</span>
-										<input class="form-control totalprice" type="text" name="totalprice<?php echo $i?>" id="totalprice<?php echo $i?>" rel="<?php echo $i?>" disabled/>
+										<input class="form-control totalprice" type="text" name="totalprice<?php echo $i?>" id="totalprice<?php echo $i?>" rel="<?php echo $i?>" readonly/>
 									</div>
 								</td>
 							</tr>
@@ -328,7 +328,7 @@ if($_GET['action']=="create") {
 								<td>
 									<div class="input-group">
 										<span class="input-group-addon">$</span>
-										<input class="form-control totalorder" type="text" name="totalorder" id="totalorder" disabled/>
+										<input class="form-control totalorder" type="text" name="totalorder" id="totalorder" readonly/>
 									</div>
 								</td>
 							</tr>
@@ -426,7 +426,7 @@ if($_GET['action']=="edit") {
 								<div class="form-group">
 									<label class="col-lg-4 control-label" for="ordernumberd">Order Number:</label>
 									<div class="col-lg-8">
-										<input class="form-control" type="text" name="ordernumberd" value="<?php echo $datarow[0]?>" disabled/>
+										<input class="form-control" type="text" name="ordernumberd" value="<?php echo $datarow[0]?>" readonly/>
 									</div>
 								</div>
 							</div>

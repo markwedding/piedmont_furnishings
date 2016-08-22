@@ -1,6 +1,8 @@
-<?php require_once("connect_to_DB.php");?>
-<?php session_start();?>
 <?php
+	ob_start();
+	session_start();
+	require_once("connect_to_DB.php");
+	include("components.php");
 	set_error_handler('errorHandler7');
 
 	function errorHandler7( $errno, $errstr, $errfile, $errline, $errcontext)
@@ -13,12 +15,20 @@
    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Order Form Confirmation</title>
-	<link type="text/css" rel="stylesheet" href="piedmont.css"/>
+	<?php html_head("Order Form Confirmation");?>
 </head>
 <body>
-	<h1>Order Form Results</h1>
-	<div class="menu"><ul><li><a href="<?php if($_SESSION['job_id'] <= 2){echo "mgr";}?>home.php">Home</a></li></ul></div><br></br>
+	<?php
+	$home_page = "";
+	if($_SESSION['job_id'] < 3) {
+		$home_page = "mgrhome.php";
+	} else {
+		$home_page = "home.php";
+	}
+
+	html_navbar('plain', $home_page);
+	?>
+
 	<?php
 	$count = $_POST['productcount'];
 	$orderNum = $_POST['ordernumber'];
@@ -90,67 +100,93 @@
 			$totalItemResult = false;
 			break;
 		}
-	}
+	}?>
 
+	<div class="container">
+		<div class="row" style="text-align:center">
+
+	<?php
 	if($orderResult and $totalItemResult){?>
-		<p>Order form data was successfully entered into the database.</p>
-	<?php } else{?>
-		<p>Order form data was unsuccessfully entered into the database.</p>
+		<p>The order form data was successfully entered into the database. Here is a summary of the order:</p>
+	<?php } else {?>
+		<p>Error: the order form data could not be entered into the database. Here is a summary of the order you attempted to enter:</p>
 	<?php }
 
 	mysqli_close($db);
 
 	?>
-	<table>
-		<tr>
-			<td>Order Number:</td>
-			<td><?php print $orderNum;?></td>
-			<td>Order Date:</td>
-			<td><?php print $orderDate;?></td>
-		</tr>
-		<tr>
-			<td>Customer:</td>
-			<td colspan="3"><?php print $customer;?></td>
-		</tr>
-		<tr>
-			<td>Sales Agent:</td>
-			<td><?php print $salesagent;?></td>
-			<td>Order status:</td>
-			<td><?php print $status;?></td>
-		</tr>
-	</table>
-	<table>
-			<tr>
-				<th>Product</th>
-				<th>Quantity</th>
-				<th>Unit Price</th>
-				<th>Total Price</th>
-			</tr>
+		</div>
+	<div class="row">
+		<div class="col-lg-4">
+			<table class="order-confirm table">
+				<tbody>
+					<tr>
+						<td class="heading">Order Number:</td>
+						<td><?php print $orderNum;?></td>
+					</tr>
+					<tr>
+						<td class="heading">Order Date:</td>
+						<td><?php print $orderDate;?></td>
+					</tr>
+					<tr>
+						<td class="heading">Customer:</td>
+						<td><?php print $customer;?></td>
+					</tr>
+					<tr>
+						<td class="heading">Sales Agent:</td>
+						<td><?php print $salesagent;?></td>
+					</tr>
+					<tr>
+						<td class="heading">Order status:</td>
+						<td><?php print $status;?></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-lg-8">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Product</th>
+						<th>Quantity</th>
+						<th>Unit Price</th>
+						<th>Total Price</th>
+					</tr>
+				</thead>
 
-			<?php for($i = 0; $i < $count; ++$i){?>
-				<tr>
-					<td><?php =$product[$i];?></td>
-					<td><?php =$quantity[$i];?></td>
-					<td><?php =$unitprice[$i];?></td>
-					<td><?php =$totalprice[$i];?></td>
-				</tr>
-			<?php }?>
+				<tbody>
+					<?php for($i = 0; $i < $count; ++$i){?>
+						<tr>
+							<td><?php echo $product[$i];?></td>
+							<td><?php echo $quantity[$i];?></td>
+							<td><?php echo $unitprice[$i];?></td>
+							<td><?php echo $totalprice[$i];?></td>
+						</tr>
+					<?php }?>
 
-			<tr>
-				<td></td>
-				<td></td>
-				<td>Total Order:</td>
-				<td><?php print $_POST['totalorder'];?></td>
-			</tr>
-		</table>
+					<tr>
+						<td></td>
+						<td></td>
+						<td class="total-confirm">Total Order:</td>
+						<td><?php print $_POST['totalorder'];?></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="row" style="text-align:center">
+		<a href="<?php echo $home_page;?>">Return to the home page</a>
+	</div>
+
+	</div>
 
 <!--Debugging purposes only-->
 <!--
-<p>SQL statement used insert/update salesorder table: <?php =$sqlOrder?></p>
+<p>SQL statement used insert/update salesorder table: <?php echo $sqlOrder?></p>
 -->
 <?php for($i = 0; $i < $count; ++$i){?>
 	<!--
-	<p>SQL statement <?php =($i + 1);?> used to insert/update orderitem table: <?php =$sqlItem[$i];?></p>
+	<p>SQL statement <?php echo ($i + 1);?> used to insert/update orderitem table: <?php echo $sqlItem[$i];?></p>
 	-->
 <?php }?>
 

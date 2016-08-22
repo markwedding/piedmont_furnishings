@@ -28,3 +28,8 @@ div.container.home-page p {
   text-align: right;
   vertical-align: middle;
 }
+
+table.table.order-confirm tbody tr td.heading, .table tbody tr td.total-confirm {
+  text-align: right;
+  font-weight: bold;
+}
