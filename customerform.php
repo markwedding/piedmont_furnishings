@@ -1,5 +1,9 @@
-<?php require_once("connect_to_DB.php");?>
 <?php
+	ob_start();
+	session_start();
+	require_once("connect_to_DB.php");
+	include("components.php");
+
 	set_error_handler('errorHandler5');
 
 	function errorHandler5( $errno, $errstr, $errfile, $errline, $errcontext)
@@ -12,8 +16,7 @@
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<link href="piedmont.css" rel="stylesheet" type="text/css"/>
-	<title>Customer Order</title>
+	<?php html_head("Customer Form");?>
 	<script>
 		function validateForm()
 		{
@@ -71,6 +74,15 @@
 	$states=array("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY");
 	?>
 
+	<?php
+	$home_page = "";
+	if($_SESSION['job_id'] < 3) {
+		$home_page = "mgrhome.php";
+	} else {
+		$home_page = "home.php";
+	}
+
+	html_navbar('plain', $home_page);?>
 
 
 <?php if($_GET['action']=="edit"){
@@ -90,42 +102,107 @@
 		}
 	?>
 
-		<h1>Edit Customer Information</h1>
-		<div class="custom-form">
-			<div class="group">
-				<p>Please provide the following information, then click Submit:</p>
-
-				<?php $datarow=mysqli_fetch_array($rsCustData);?>
-				<form name="form1" method="post" action="customerconfirmation.php" onsubmit="return validateForm()">
-					<?php
-					$customerid = $datarow[0];
-					?>
-					<input type="hidden" name="cid" value="<?php echo $customerid?>"/>
-					<p>Customer ID: <input name="cidd" size="25" value="<?php echo $customerid?>" disabled="disabled"/>Region: <select name="region"><?php
-						while($row=mysqli_fetch_array($rsRegion)){?>
-							<option <?php if($datarow[1]==$row[0]){?>selected="selected"<?php }?>><?php echo $row[0]?></option><?php }?>
-						</select></p>
-					<p>Company Name <input name="cname" size="48" value="<?php echo $datarow[2]?>"/></p>
-					<p>Contact Information:</p>
-					<p>	Last Name: <input name="lname" size="32" value="<?php echo $datarow[3]?>"/></p>
-					<p>	First Name: <input name="fname" size="32" value="<?php echo $datarow[4]?>"/></p>
-					<p>Street Address: <input name="address" size="75" value="<?php echo $datarow[5]?>"/></p>
-					<p>City: <input name="city" size="24" value="<?php echo $datarow[6]?>"/></p>
-					<p>State: <select name="state">
-						<?php for($i=0; $i<count($states); ++$i)
-						{?>
-							<option <?php if($datarow[7]==$states[$i]){?>selected="selected"<?php }?>><?php echo $states[$i]?></option><?php echo "\n";
-						}?>
-						</select></p>
-					<p>ZIP: <input name="zip" size="12" value="<?php echo $datarow[8]?>"/></p>
-					<p>Phone: <input name="phone" size="25" value="<?php echo $datarow[9]?>"/></p>
-					<p>Fax: <input name="fax" size="25" value="<?php echo $datarow[10]?>"/></p>
-					<p>Email: <input name="email" size="25" value="<?php echo $datarow[11]?>"/></p>
-					<?php mysqli_free_result($rsCustData);?>
-					<input type="hidden" name="action" value="edit"/>
-					<p class="button"><input type="submit" value="Submit" />
-					<input type="reset" value="Reset" /></p>
-				</form>
+		<div class="container">
+			<div class="panel panel-info form1">
+				<div class="panel-heading">
+			    <h3 class="panel-title">Edit Customer</h3>
+			  </div>
+				<div class="panel-body">
+					<?php $datarow=mysqli_fetch_array($rsCustData);?>
+					<form class="form-horizontal" name="form1" method="post" action="customerconfirmation.php" onsubmit="return validateForm()">
+						<?php
+						$customerid = $datarow[0];
+						?>
+						<input type="hidden" name="cid" value="<?php echo $customerid?>"/>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="cidd">Customer ID:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="cidd" value="<?php echo $customerid?>" readonly/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="region">Region:</label>
+							<div class="col-lg-8">
+								<select class="form-control" name="region"><?php
+								while($row=mysqli_fetch_array($rsRegion)){?>
+									<option <?php if($datarow[1]==$row[0]){?>selected="selected"<?php }?>><?php echo $row[0]?></option><?php }?>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="cname">Company Name:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="cname" value="<?php echo $datarow[2]?>"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="fname">First:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="fname" value="<?php echo $datarow[4]?>"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="lname">Last:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="lname" value="<?php echo $datarow[3]?>"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="address">Street Address:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="address" value="<?php echo $datarow[5]?>"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="city">City:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="city" value="<?php echo $datarow[6]?>"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="state">State:</label>
+							<div class="col-lg-8">
+								<select class="form-control" name="state">
+									<?php for($i=0; $i<count($states); ++$i)
+									{?>
+										<option <?php if($datarow[7]==$states[$i]){?>selected="selected"<?php }?>><?php echo $states[$i]?></option><?php echo "\n";
+									}?>
+									</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="zip">ZIP:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="zip" value="<?php echo $datarow[8]?>"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="phone">Phone:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="phone" value="<?php echo $datarow[9]?>"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="fax">Fax:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="fax" value="<?php echo $datarow[10]?>"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-4 control-label" for="email">Email:</label>
+							<div class="col-lg-8">
+								<input class="form-control" type="text" name="email" value="<?php echo $datarow[11]?>"/>
+							</div>
+						</div>
+						<?php mysqli_free_result($rsCustData);?>
+						<input type="hidden" name="action" value="edit"/>
+						<div class="form-group">
+							<div class="center-button">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 
@@ -150,23 +227,36 @@
 			header("Location: error.php?msg=" . $e->getMessage() . "&line=" . $e->getLine());
 		}
 	?>
-		<div class="custom-form">
-			<p>Please select which customer you would like to edit:</p>
-			<form name="customerform" method="post" action="customerform.php?action=edit">
-				<select name="customer" size="25">
-					<?php while($row=mysqli_fetch_array($rsCustList)){?>
-						<option value="<?php echo $row[0]?>" <?php if($row[0]=="1"){?>selected="selected"<?php }?>><?php echo "(".$row[0].") ".$row[1].", ".$row[2]?></option><?php echo "\n";}?>
-				</select>
-				<?php mysqli_free_result($rsCustList);?>
-				</br>
-				<div><input type="submit" value="Submit" name="submitCust"/></div>
+		<div class="container">
+			<div class="panel panel-info form1">
+				<div class="panel-heading">
+			    <h3 class="panel-title">Edit Customer</h3>
+			  </div>
+				<div class="panel-body">
+					<p>Please select which customer you would like to edit:</p>
+					<form name="customerform" method="post" action="customerform.php?action=edit">
+						<select class="form-control" name="customer" size="25">
+							<?php while($row=mysqli_fetch_array($rsCustList)){?>
+								<option value="<?php echo $row[0]?>" <?php if($row[0]=="1"){?>selected="selected"<?php }?>><?php echo "(".$row[0].") ".$row[1].", ".$row[2]?></option><?php echo "\n";}?>
+						</select>
+						<?php mysqli_free_result($rsCustList);?>
+						<br>
+						<div class="form-group">
+							<div class="center-button">
+								<button type="submit" class="btn btn-primary" name="submitCust">Submit</button>
+							</div>
+						</div>
 
-				<!--Debugging purposes only-->
-				<!--
-				<p>SQL statement used to populate the customer list box: <?php echo $sqlCustList?></p>
-				-->
-			</form><?php }?>
+						<!--Debugging purposes only-->
+						<!--
+						<p>SQL statement used to populate the customer list box: <?php echo $sqlCustList?></p>
+						-->
+					</form>
+				</div>
+			</div>
 		</div>
+			<?php }?>
+
 <?php } else {?>
 
 
@@ -183,42 +273,107 @@
 	}
 ?>
 
-	<h1>New Customer Entry</h1>
-	<div class="custom-form">
-
-		<p>Please provide the following information, then click Submit:</p>
-
-		<form name="form1" method="post" action="customerconfirmation.php" onsubmit="return validateForm()">
-			<?php
-			$row = mysqli_fetch_array($rsID);
-			$customerid = $row[0] + 1;
-			?>
-			<input type="hidden" name="cid" value="<?php echo $customerid?>"/>
-			<div class="group">
-				<p>Customer ID: <input name="cidd" size="25" value="<?php echo $customerid?>" disabled="disabled"/>Region: <select name="region"><?php echo "\n";
-					while($row=mysqli_fetch_array($rsRegion)){?>
-						<option><?php echo $row[0]?></option><?php echo "\n";}?>
-					</select></p>
-				<p>Company Name <input name="cname" size="48" /></p>
-				<p>Contact Information:</p>
-				<p>	Last Name: <input name="lname" size="32"/></p>
-				<p>	First Name: <input name="fname" size="32"/></p>
-				<p>Street Address: <input name="address" size="75"/></p>
-				<p>City: <input name="city" size="24"/></p>
-				<p>State: <select name="state">
-					<?php for($i=0;$i<count($states);++$i){?>
-						<option><?php echo $states[$i]?></option><?php echo "\n";}?>
-					</select></p>
-				<p>ZIP: <input name="zip" size="12"/></p>
-				<p>Phone: <input name="phone" size="25"/></p>
-				<p>Fax: <input name="fax" size="25"/></p>
-				<p>Email: <input name="email" size="25"/></p>
+	<div class="container">
+		<div class="panel panel-info form1">
+			<div class="panel-heading">
+		    <h3 class="panel-title">New Customer</h3>
+		  </div>
+			<div class="panel-body">
+				<form class="form-horizontal" name="form1" method="post" action="customerconfirmation.php" onsubmit="return validateForm()">
+					<fieldset>
+					<?php
+					$row = mysqli_fetch_array($rsID);
+					$customerid = $row[0] + 1;
+					?>
+					<input type="hidden" name="cid" value="<?php echo $customerid?>"/>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="cidd">Customer ID:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="cidd" value="<?php echo $customerid?>" readonly/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="region">Region:</label>
+								<div class="col-lg-8">
+									<select class="form-control" name="region"><?php echo "\n";
+									while($row=mysqli_fetch_array($rsRegion)){?>
+										<option><?php echo $row[0]?></option><?php echo "\n";}?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="cname">Company Name:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="cname"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="fname">First:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="fname"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="lname">Last:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="lname"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="address">Street Address:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="address"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="city">City:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="city"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="state">State:</label>
+								<div class="col-lg-8">
+									<select class="form-control" name="state">
+										<?php for($i=0;$i<count($states);++$i){?>
+											<option><?php echo $states[$i]?></option><?php echo "\n";}?>
+										</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="zip">ZIP:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="zip"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="phone">Phone:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="phone"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="fax">Fax:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="fax"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-4 control-label" for="email">Email:</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" name="email"/>
+								</div>
+							</div>
+							<input type="hidden" name="action" value="create"/>
+							<div class="form-group">
+								<div class="center-button">
+									<button type="submit" class="btn btn-primary">Submit</button>
+								</div>
+							</div>
+				</fieldset>
+				</form>
 			</div>
-			<input type="hidden" name="action" value="create"/>
-			<p class="button"><input type="submit" value="Submit" />
-			<input type="reset" value="Reset" /></p>
-		</form>
-
+		</div>
 	</div>
 
 	<!--Debugging purposes only-->
