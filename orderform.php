@@ -333,8 +333,10 @@ if($_GET['action']=="create") {
 								</td>
 							</tr>
 						</table>
-						<div class="center-button">
-							<button type="submit" class="btn btn-primary">Submit</button>
+						<div class="form-group">
+							<div class="center-button">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
 						</div>
 
 						<?php //send the count of the products in the order to the confirmation page?>
@@ -386,8 +388,6 @@ if($_GET['action']=="create") {
 
 if($_GET['action']=="edit") {
 ?>
-	<h1>Edit Order Form</h1>
-
 	<?php
 	if(isset($_POST['submitOrderNum'])){
 	?>
@@ -412,107 +412,158 @@ if($_GET['action']=="edit") {
 		?>
 
 		<?php $datarow=mysqli_fetch_array($rsOrderData1);?>
-		<form id="orderform" method="post" action="orderconfirmation.php" onsubmit="return validateForm()">
-			<input type="hidden" name="ordernumber" value="<?php echo $datarow[0]?>"/>
-			<table>
-				<tr>
-					<td>Order Number:</td>
-					<td><input type="text" name="ordernumberd" value="<?php echo $datarow[0]?>" disabled="disabled"/></td>
-					<td>Order Date:</td>
-					<td><input type="text" name="orderdate" value="<?php echo $datarow[1]?>"/></td>
-				</tr>
-				<tr>
-					<td>Customer:</td>
-					<td><select name="customer" >
-					<?php while($row = mysqli_fetch_array($resultCust))
-					{  // retrieve each row of the recordset in turn ?>
-						<option value="<?php echo  $row["cust_id"]; ?>" <?php if($row["cust_id"]==$datarow[2]){?>selected="selected"<?php }?>>
-						<?php echo  "(" . $row["cust_id"] . ") " . $row["cust_lname"] . ", " . $row["cust_fname"] ?>
-						</option>
-					<?php } ?>
-					</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Sales Agent:</td>
-					<td><select name="salesagent" >
-					<?php while($row = mysqli_fetch_array($resultEmp))
-					{  // retrieve each row of the recordset in turn ?>
-						<option value="<?php echo  $row["emp_id"]; ?>" <?php if($row["emp_id"]==$datarow[3]){?>selected="selected"<?php }?>>
-						<?php echo  $row["emp_lname"] . ", " . $row["emp_fname"] ?>
-						</option>
-					<?php } ?>
-					</select>
-					</td>
-					<td>Order status:</td>
-					<td>
-					<select name="status" >
-					<?php while($row = mysqli_fetch_array($resultStat))
-					{  // retrieve each row of the recordset in turn ?>
-						<option value="<?php echo  $row['status_id'];?>" <?php if($row['status_type']==$datarow[4]){?>selected="selected"<?php }?>>
-						<?php echo  $row['status_type']?>
-						</option>
-					<?php } ?>
-					</select>
-					</td>
-				</tr>
-			</table>
 
-			<?php mysqli_free_result($rsOrderData1);?>
+		<div class="container">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+			    <h3 class="panel-title">New Order Form</h3>
+			  </div>
+				<div class="panel-body">
+					<form class="form-horizontal" id="orderform" method="post" action="orderconfirmation.php" onsubmit="return validateForm()">
+						<input type="hidden" name="ordernumber" value="<?php echo $datarow[0]?>"/>
+						<div class="row">
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="ordernumberd">Order Number:</label>
+									<div class="col-lg-8">
+										<input class="form-control" type="text" name="ordernumberd" value="<?php echo $datarow[0]?>" disabled/>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="orderdate">Order Date:</label>
+									<div class="col-lg-8">
+										<input class="form-control" type="text" name="orderdate" value="<?php echo $datarow[1]?>"/>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="status">Order Status:</label>
+									<div class="col-lg-8">
+										<select class="form-control" name="status" >
+										<?php while($row = mysqli_fetch_array($resultStat))
+										{  // retrieve each row of the recordset in turn ?>
+											<option value="<?php echo  $row['status_id'];?>" <?php if($row['status_type']==$datarow[4]){?>selected="selected"<?php }?>>
+											<?php echo  $row['status_type']?>
+											</option>
+										<?php } ?>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="customer">Customer:</label>
+									<div class="col-lg-8">
+										<select class="form-control" name="customer" >
+										<?php while($row = mysqli_fetch_array($resultCust))
+										{  // retrieve each row of the recordset in turn ?>
+											<option value="<?php echo  $row["cust_id"]; ?>" <?php if($row["cust_id"]==$datarow[2]){?>selected="selected"<?php }?>>
+											<?php echo  "(" . $row["cust_id"] . ") " . $row["cust_lname"] . ", " . $row["cust_fname"] ?>
+											</option>
+										<?php } ?>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="col-lg-4 control-label" for="salesagent">Sales Agent:</label>
+									<div class="col-lg-8">
+										<select class="form-control" name="salesagent" >
+										<?php while($row = mysqli_fetch_array($resultEmp))
+										{  // retrieve each row of the recordset in turn ?>
+											<option value="<?php echo  $row["emp_id"]; ?>" <?php if($row["emp_id"]==$datarow[3]){?>selected="selected"<?php }?>>
+											<?php echo  $row["emp_lname"] . ", " . $row["emp_fname"] ?>
+											</option>
+										<?php } ?>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
 
-			<table>
-				<tr>
-					<th>Product</th>
-					<th>Quantity</th>
-					<th>Unit Price</th>
-					<th>Total Price</th>
-				</tr>
+						<?php mysqli_free_result($rsOrderData1);?>
 
-				<?php $rowcount=mysqli_num_rows($rsOrderData2);?>
+						<table class="table">
+							<tr>
+								<th>Product</th>
+								<th>Quantity</th>
+								<th>Unit Price</th>
+								<th>Total Price</th>
+							</tr>
 
-				<?php for ($i = 1; $i <= $rowcount; $i++){
-					$datarow=mysqli_fetch_array($rsOrderData2);
-				?>
-				<tr>
-					<td>
-						<select name="product<?php echo $i?>">
-							<?php while($row = mysqli_fetch_array($resultProd))
-							{  // retrieve each row of the recordset in turn ?>
-								<option value="<?php echo  $row["product_id"]; ?>" <?php if($row["product_id"]==$datarow[0]){?>selected="selected"<?php }?>>
-								<?php echo  $row["product_id"] . ": " . $row["product_name"] ?>
-								</option>
-							<?php } mysqli_data_seek($resultProd,0); ?>
-						</select>
-					</td>
-					<td><input type="text" name="quantity<?php echo $i?>" value="<?php echo $datarow[2]?>"/></td>
-					<td><input type="text" name="unitprice<?php echo $i?>" value="<?php echo $datarow[3]?>"/></td>
-					<td><input type="text" name="totalprice<?php echo $i?>" value="<?php echo $datarow[4]?>"/></td>
-				</tr>
-				<?php
-				} ?>
+							<?php $rowcount=mysqli_num_rows($rsOrderData2);?>
 
-				<?php mysqli_data_seek($rsOrderData2,0);?>
-				<tr>
-					<td colspan="3" align="right">Total Order:</td>
-					<td><input type="text" name="totalorder" value="<?php
-							$sum = 0;
-							while($datarow=mysqli_fetch_array($rsOrderData2)){
-								$sum = $sum + $datarow[4];}
-							echo $sum;
-					?>"/></td>
-				</tr>
-			</table>
+							<?php for ($i = 1; $i <= $rowcount; $i++){
+								$datarow=mysqli_fetch_array($rsOrderData2);
+							?>
+							<tr>
+								<td>
+									<select class="form-control" name="product<?php echo $i?>" id="product<?php echo $i?>" rel="<?php echo $i?>">
+										<?php while($row = mysqli_fetch_array($resultProd))
+										{  // retrieve each row of the recordset in turn ?>
+											<option value="<?php echo  $row["product_id"]; ?>" <?php if($row["product_id"]==$datarow[0]){?>selected="selected"<?php }?>>
+											<?php echo  $row["product_id"] . ": " . $row["product_name"] ?>
+											</option>
+										<?php } mysqli_data_seek($resultProd,0); ?>
+									</select>
+								</td>
+								<td>
+									<input class="form-control" type="text" name="quantity<?php echo $i?>" id="quantity<?php echo $i?>" value="<?php echo $datarow[2]?>" rel="<?php echo $i?>"/>
+								</td>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">$</span>
+										<input class="form-control" type="text" name="unitprice<?php echo $i?>" id="unitprice<?php echo $i?>" value="<?php echo $datarow[3]?>" rel="<?php echo $i?>"/>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">$</span>
+										<input class="form-control" type="text" name="totalprice<?php echo $i?>" id="totalprice<?php echo $i?>" value="<?php echo $datarow[4]?>" rel="<?php echo $i?>"/>
+									</div>
+								</td>
+							</tr>
+							<?php
+							} ?>
 
-			<?php mysqli_free_result($rsOrderData2);?>
+							<?php mysqli_data_seek($rsOrderData2,0);?>
+							<tr>
+								<td colspan="3" class="total-label"><strong>Total Order:</strong></td>
+								<td>
+									<div class="input-group">
+										<span class="input-group-addon">$</span>
+										<input class="form-control totalorder" type="text" name="totalorder" id="totalorder" value="<?php
+											$sum = 0;
+											while($datarow=mysqli_fetch_array($rsOrderData2)){
+												$sum = $sum + $datarow[4];}
+											echo $sum;?>"/>
+										</div>
+								</td>
+							</tr>
 
-			<div class="submit">
-				<input type="submit" value="Submit"/>
+						</table>
+
+						<?php mysqli_free_result($rsOrderData2);?>
+
+						<div class="form-group">
+							<div class="center-button">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+
+						<?php //send the count of the products in the order to the confirmation page?>
+						<input type="hidden" name="productcount" value="<?php echo $rowcount?>"/>
+						<input type="hidden" name="action" value="edit"/>
+					</form>
+				</div>
 			</div>
-
-			<?php //send the count of the products in the order to the confirmation page?>
-			<input type="hidden" name="productcount" value="<?php echo $rowcount?>"/>
-			<input type="hidden" name="action" value="edit"/>
-		</form>
+		</div>
 
 		<?php /*
 		<p>SQL statement used to populate order information: <?php echo $sqlOrderData1?></p>
@@ -542,23 +593,34 @@ if($_GET['action']=="edit") {
 			}
 		?>
 
-		<div style='text-align:center;'>
-			<p>Please select which order you would like to edit:</p>
-			<form name="editorderform" method="post" action="orderform.php?action=edit">
-				<select name="order" size="25">
-				<?php $k = true;
-				while($datarow=mysqli_fetch_array($rsOrderNum)){?>
-					<option value="<?php echo $datarow[0]?>" <?php if($k){?>selected="selected"<?php }?>><?php echo "Order Number: ".$datarow[0]." &nbsp &nbsp Order Date: ".$datarow[1]." &nbsp &nbsp Customer: (".$datarow[2].") ".$datarow[3].", ".$datarow[4]." &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Sales Agent: ".$datarow[5].", ".$datarow[6]." &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Order Status: ".$datarow[7]?></option><?php echo "\n"; $k = false;}?>
-				</select>
-				<?php mysqli_free_result($rsOrderNum);?>
-				<br/>
-				<div class="submit"><input type="submit" name="submitOrderNum" value="Submit"/></div>
+		<div class="container">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+			    <h3 class="panel-title">Edit Order</h3>
+			  </div>
+				<div class="panel-body">
+					<p>Please select which order you would like to edit:</p>
+					<form name="editorderform" method="post" action="orderform.php?action=edit">
+						<select class="form-control" size="25" name="order">
+						<?php $k = true;
+						while($datarow=mysqli_fetch_array($rsOrderNum)){?>
+							<option value="<?php echo $datarow[0]?>" <?php if($k){?>selected="selected"<?php }?>><?php echo "Order Number: ".$datarow[0]." &nbsp &nbsp Order Date: ".$datarow[1]." &nbsp &nbsp Customer: (".$datarow[2].") ".$datarow[3].", ".$datarow[4]." &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Sales Agent: ".$datarow[5].", ".$datarow[6]." &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Order Status: ".$datarow[7]?></option><?php echo "\n"; $k = false;}?>
+						</select>
+						<?php mysqli_free_result($rsOrderNum);?>
+						<br/>
+						<div class="form-group">
+							<div class="center-button">
+								<button type="submit" class="btn btn-primary" name="submitOrderNum">Submit</button>
+							</div>
+						</div>
 
-				<!--Debugging purposes only-->
-				<!--
-				<p>SQL statement used to populate order number list box: </p>
-				-->
-			</form>
+						<!--Debugging purposes only-->
+						<!--
+						<p>SQL statement used to populate order number list box: </p>
+						-->
+					</form>
+				</div>
+			</div>
 		</div>
 
 	<?php }} ?>
