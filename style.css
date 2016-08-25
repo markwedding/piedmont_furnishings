@@ -1,9 +1,9 @@
-@import 'https://fonts.googleapis.com/css?family=Righteous';
+@import 'https://fonts.googleapis.com/css?family=Arvo';
 
 nav.navbar.navbar-default .container .navbar-header .navbar-brand {
   color: #158cba;
-  font-family: 'Righteous';
-  font-size: 1.75em;
+  font-family: 'Arvo';
+  font-size: 1.5em;
   font-weight: 200;
 }
 

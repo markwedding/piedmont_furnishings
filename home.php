@@ -29,6 +29,10 @@
     <p>
       Up until this point, the company has relied on paper documents to conduct their business. Sales agents fill out physical order forms and customer forms, and must mail them to the store in High Point. In addition, managers rely upon manually constructed reports to analyze the company. The Sales Order Analysis and Reporting System is a web-based support system that will allow all of these forms and reports to be done through the web. Rather than mailing forms to the physical store, sales agents will be able to simply logon to the system through a web browser and fill out electronic forms. Managers will be able to generate reports based upon the data that is entered into the system.
     </p>
+    <p class="text-danger">
+      * This was a school project. The idea of the company, the database structure, and the sample data were provided by the professor. My team's job was to design and implement the website.
+    </p>
+
   </div>
 
 </body>

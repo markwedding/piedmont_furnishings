@@ -109,7 +109,7 @@
 	if($orderResult and $totalItemResult){?>
 		<p>The order form data was successfully entered into the database. Here is a summary of the order:</p>
 	<?php } else {?>
-		<p>Error: the order form data could not be entered into the database. Here is a summary of the order you attempted to enter:</p>
+		<p>Here is a summary of the order:</p>
 	<?php }
 
 	mysqli_close($db);

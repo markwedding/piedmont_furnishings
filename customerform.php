@@ -274,7 +274,7 @@
 ?>
 
 	<div class="container">
-		<div class="panel panel-info form1">
+		<div class="panel panel-info thin-window">
 			<div class="panel-heading">
 		    <h3 class="panel-title">New Customer</h3>
 		  </div>

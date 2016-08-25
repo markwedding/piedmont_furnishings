@@ -116,6 +116,9 @@
             </div>
           </div>
         </fieldset>
+				<p class="text-danger">
+					* A Management account and a Sales Agent account have similar functionality except that only a Manager can view an Itemized Sales Report.
+				</p>
       </form>
     </div>
 	</body>
