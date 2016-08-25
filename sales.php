@@ -160,6 +160,7 @@
 					</tr>
 				</tfoot>
 			</table>
+			<hr>
 
 			<?php
 			mysqli_free_result($rsSales);
