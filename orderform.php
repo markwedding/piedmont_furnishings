@@ -1,8 +1,9 @@
 <?php
 	ob_start();
 	session_start();
-	require_once("connect_to_DB.php");
+	include("connect_to_DB.php");
 	include("components.php");
+
 	set_error_handler('errorHandler8');
 
 	function errorHandler8( $errno, $errstr, $errfile, $errline, $errcontext)

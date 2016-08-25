@@ -1,7 +1,7 @@
 <?php
 	ob_start();
 	session_start();
-	require_once("connect_to_DB.php");
+	include("connect_to_DB.php");
 	include("components.php");
 	set_error_handler('errorHandler3');
 
@@ -74,7 +74,7 @@
 				header("Location: error.php?msg=" . $e->getMessage() . "&line=" . $e->getLine());
 			}
 
-			$strOut = "<?phpxml version=\"1.0\"?>\n<!DOCTYPE salesreport SYSTEM \"salesreport.dtd\">\n\n<salesreport>\n";
+			$strOut = "<?xml version=\"1.0\"?>\n<!DOCTYPE salesreport SYSTEM \"salesreport.dtd\">\n\n<salesreport>\n";
 
 			$order = '';
 			$sum = 0;
