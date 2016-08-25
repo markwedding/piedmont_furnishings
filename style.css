@@ -2,7 +2,7 @@ nav.navbar.navbar-default .container .navbar-header .navbar-brand {
   color: #158cba;
 }
 
-.form1 {
+.thin-window {
   width: 40%;
   margin-left: auto;
   margin-right: auto;
@@ -29,7 +29,7 @@ div.container.home-page p {
   vertical-align: middle;
 }
 
-table.table.order-confirm tbody tr td.heading, .table tbody tr td.total-confirm {
+table.table.order-confirm tbody tr td.heading, .table tbody tr td.total-confirm, .customer-confirm td:first-child {
   text-align: right;
   font-weight: bold;
 }

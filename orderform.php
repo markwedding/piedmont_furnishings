@@ -360,7 +360,7 @@ if($_GET['action']=="create") {
 	} else {
 	?>
 	<div class="container">
-		<div class="panel panel-info form1">
+		<div class="panel panel-info thin-window">
 			<div class="panel-heading">
 		    <h3 class="panel-title">New Order Form</h3>
 		  </div>
