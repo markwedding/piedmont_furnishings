@@ -1,5 +1,10 @@
+@import 'https://fonts.googleapis.com/css?family=Righteous';
+
 nav.navbar.navbar-default .container .navbar-header .navbar-brand {
   color: #158cba;
+  font-family: 'Righteous';
+  font-size: 1.75em;
+  font-weight: 200;
 }
 
 .thin-window {
@@ -8,11 +13,6 @@ nav.navbar.navbar-default .container .navbar-header .navbar-brand {
   margin-right: auto;
 }
 
-div.container.home-page {
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 div.container.home-page p {
   font-size: 1.15em;
@@ -32,4 +32,8 @@ div.container.home-page p {
 table.table.order-confirm tbody tr td.heading, .table tbody tr td.total-confirm, .customer-confirm td:first-child {
   text-align: right;
   font-weight: bold;
+}
+
+table.isr-dates {
+  width: 500px;
 }

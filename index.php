@@ -86,7 +86,7 @@
     ?>
 
     <div class="container">
-      <form class="form-horizontal form1" action="index.php" method="post" name="form1">
+      <form class="form-horizontal thin-window" action="index.php" method="post" name="form1">
         <fieldset>
           <legend>Employee Login</legend>
           <div class="form-group">
